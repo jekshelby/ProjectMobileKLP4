@@ -1,5 +1,6 @@
 import 'package:calculator/button.dart';
 import 'package:flutter/material.dart';
+import 'package:math_expressions/math_expressions.dart';
 
 void main() => runApp(MyApp());
 
@@ -89,7 +90,6 @@ class _HomePageState extends State<HomePage> {
             gridDelegate:
                 SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
             itemBuilder: (BuildContext context, int index) {
-
               //Clear Button
               if (index == 0) {
                 return MyButton(
@@ -102,26 +102,41 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.green,
                   textColor: Colors.white,
                 );
-              } 
-              
+              }
+
               //Delete Button
               else if (index == 1) {
                 return MyButton(
                   buttonTapped: () {
                     setState(() {
-                      userQuestion = userQuestion.substring(0,userQuestion.length-1);
+                      userQuestion =
+                          userQuestion.substring(0, userQuestion.length - 1);
                     });
                   },
                   buttonText: buttons[index],
                   color: Colors.red,
                   textColor: Colors.white,
                 );
-              } 
-              
+              }
+
+              //equals button
+              else if (index == buttons.length - 1) {
+                return MyButton(
+                  buttonTapped: () {
+                    setState(() {
+                      equalPressed();
+                    });
+                  },
+                  buttonText: buttons[index],
+                  color: Colors.deepPurple,
+                  textColor: Colors.white,
+                );
+              }
+
               //Rest of the buttons
               else {
                 return MyButton(
-                  buttonTapped: (){
+                  buttonTapped: () {
                     setState(() {
                       userQuestion += buttons[index];
                     });
@@ -147,5 +162,17 @@ class _HomePageState extends State<HomePage> {
       return true;
     }
     return false;
+  }
+
+  void equalPressed() {
+    String finalQeustion = userQuestion;
+    finalQeustion = finalQeustion.replaceAll('x', '*');
+
+    Parser p = Parser();
+    Expression exp = p.parse(finalQeustion);
+    ContextModel cm = ContextModel();
+    double eval = exp.evaluate(EvaluationType.REAL, cm);
+
+    userAnswer = eval.toString();
   }
 }
