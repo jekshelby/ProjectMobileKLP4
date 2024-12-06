@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                   height: 50,
                 ),
                 Container(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.all(10),
                   alignment: Alignment.centerLeft,
                   child: Text(
                     userQuestion,
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.all(10),
                   alignment: Alignment.centerRight,
                   child: Text(
                     userAnswer,
