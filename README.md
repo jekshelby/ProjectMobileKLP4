@@ -5,3 +5,4 @@ Nama Kelompok
 - Salsa Biljannaty
 - Nazara Maulita
 - Kerin Putri Ramawan
+- Bima Rizki
