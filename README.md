@@ -30,9 +30,7 @@
 ### [Bima Rizki](https://github.com/Bimaaaaaa)  
 **Role**: Evaluate 
 
-**Fungsionalitas**  
-Memastikan bahwa semua fitur kalkulator berjalan sesuai dengan spesifikasi: 
- 
--Operasi dasar: Penjumlahan, pengurangan, perkalian, dan pembagian berfungsi dengan benar.
-
--Validasi input: Memastikan aplikasi hanya menerima input angka dan simbol yang diperbolehkan.
+**Responsibilities**  
+- Memastikan bahwa semua fitur kalkulator berjalan sesuai dengan spesifikasi: 
+- Operasi dasar: Penjumlahan, pengurangan, perkalian, dan pembagian berfungsi dengan benar.
+- Validasi input: Memastikan aplikasi hanya menerima input angka dan simbol yang diperbolehkan.
