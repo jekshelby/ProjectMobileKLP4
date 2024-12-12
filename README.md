@@ -27,4 +27,12 @@
 **Responsibilities**:  
 - Menguji semua fitur aplikasi kalkulator, seperti tombol Clear dan Delete, untuk memastikan fungsionalitasnya sesuai spesifikasi, baik dari segi perhitungan maupun interaksi pengguna.
 
-- Bima Rizki
+### [Bima Rizki](https://github.com/Bimaaaaaa)  
+**Role**: Evaluate 
+
+**Fungsionalitas**  
+Memastikan bahwa semua fitur kalkulator berjalan sesuai dengan spesifikasi: 
+ 
+-Operasi dasar: Penjumlahan, pengurangan, perkalian, dan pembagian berfungsi dengan benar.
+
+-Validasi input: Memastikan aplikasi hanya menerima input angka dan simbol yang diperbolehkan.
