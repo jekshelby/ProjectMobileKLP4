@@ -15,8 +15,12 @@
 **Responsibilities**:  
 - Memisahkan area input untuk angka atau simbol dari tempat hasil perhitungan agar lebih jelas dan mudah dibaca.
 
+### [Salsa Biljannaty](https://github.com/salsabiljannaty)  
+**Role**: Gesture Detector
 
-- Salsa Biljannaty
-- Nazara Maulita
+**Responsibilities**:  
+- Menggunakan GestureDetector untuk menangkap interaksi pengguna, seperti tap pada tombol kalkulator agar aplikasi dapat merespons input dengan baik.
+
+
 - Kerin Putri Ramawan
 - Bima Rizki
