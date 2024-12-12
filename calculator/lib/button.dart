@@ -5,7 +5,8 @@ class MyButton extends StatefulWidget {
   final Color color; // Warna latar tombol
   final Color textColor; // Warna teks tombol
   final String buttonText; // Teks yang ditampilkan pada tombol
-  final VoidCallback? buttonTapped; // Fungsi yang akan dipanggil saat tombol ditekan
+  final VoidCallback?
+      buttonTapped; // Fungsi yang akan dipanggil saat tombol ditekan
 
   // Konstruktor untuk inisialisasi properti tombol
   const MyButton({
@@ -24,18 +25,22 @@ class _MyButtonState extends State<MyButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.buttonTapped, // Memanggil fungsi callback saat tombol ditekan
+      onTap:
+          widget.buttonTapped, // Memanggil fungsi callback saat tombol ditekan
       child: Padding(
-        padding: const EdgeInsets.all(8.0), // Memberikan padding di sekitar tombol
+        padding:
+            const EdgeInsets.all(8.0), // Memberikan padding di sekitar tombol
         child: Container(
           decoration: BoxDecoration(
             color: widget.color, // Mengatur warna latar tombol
-            borderRadius: BorderRadius.circular(20), // Membuat sudut tombol melengkung
+            borderRadius:
+                BorderRadius.circular(20), // Membuat sudut tombol melengkung
           ),
           child: Center(
             child: Text(
               widget.buttonText, // Menampilkan teks tombol
-              style: TextStyle(color: widget.textColor), // Mengatur warna teks tombol
+              style: TextStyle(
+                  color: widget.textColor), // Mengatur warna teks tombol
             ),
           ),
         ),
