@@ -21,6 +21,10 @@
 **Responsibilities**:  
 - Menggunakan GestureDetector untuk menangkap interaksi pengguna, seperti tap pada tombol kalkulator agar aplikasi dapat merespons input dengan baik.
 
+### [Kerin Putri Ramawan](https://github.com/kerinputri)  
+**Role**: Testing
 
-- Kerin Putri Ramawan
+**Responsibilities**:  
+- Menguji semua fitur aplikasi kalkulator, seperti tombol Clear dan Delete, untuk memastikan fungsionalitasnya sesuai spesifikasi, baik dari segi perhitungan maupun interaksi pengguna.
+
 - Bima Rizki
