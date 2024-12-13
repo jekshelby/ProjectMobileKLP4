@@ -1,117 +1,162 @@
-import 'package:calculator/button.dart';
-import 'package:flutter/material.dart';
-import 'package:math_expressions/math_expressions.dart';
-import 'package:intl/intl.dart';
+import 'package:calculator/button.dart'; // Import file untuk widget tombol
+import 'package:flutter/material.dart'; // Import library Flutter
+import 'package:math_expressions/math_expressions.dart'; // Import library untuk evaluasi ekspresi matematika
+import 'package:intl/intl.dart'; // Import untuk memformat angka dengan koma
 
-void main() => runApp(MyApp());
+void main() => runApp(MyApp()); // Fungsi utama untuk menjalankan aplikasi
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      debugShowCheckedModeBanner: false, // Menghilangkan banner debug
+      home: HomePage(), // Menyeting HomePage sebagai halaman utama
     );
   }
 }
 
 class HomePage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageState createState() =>
+      _HomePageState(); // Membuat state dari halaman
 }
 
 class _HomePageState extends State<HomePage> {
-  var userQuestion = ''; 
-  var userAnswer = ''; 
-  final myTextStyle = TextStyle(fontSize: 30, color: Colors.deepPurple[900]);
+  var userQuestion = ''; // Menyimpan pertanyaan/input dari pengguna
+  var userAnswer = ''; // Menyimpan jawaban dari perhitungan
+  final myTextStyle = TextStyle(
+      fontSize: 30, color: Colors.deepPurple[900]); // Gaya teks default
 
+  // Daftar tombol yang akan ditampilkan di kalkulator
   final List<String> buttons = [
-    'C', 'DEL', '%', '/',
-    '9', '8', '7', 'x',
-    '6', '5', '4', '-',
-    '3', '2', '1', '+',
-    '0', ',', 'Ans', '=',
+    'C',
+    'DEL',
+    '%',
+    '/',
+    '9',
+    '8',
+    '7',
+    'x',
+    '6',
+    '5',
+    '4',
+    '-',
+    '3',
+    '2',
+    '1',
+    '+',
+    '0',
+    ',',
+    'Ans',
+    '=',
   ];
+
+  // Fungsi untuk memproses input tombol
+  void buttonTapped(String value) {
+    setState(() {
+      if (isOperator(value)) {
+        // Mencegah operator menjadi input pertama atau duplikat
+        if (userQuestion.isEmpty ||
+            isOperator(userQuestion[userQuestion.length - 1])) {
+          return; // Abaikan jika invalid
+        }
+      }
+      userQuestion += value; // Tambahkan input ke userQuestion
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple[100],
+      backgroundColor: Colors.deepPurple[100], // Warna latar belakang
       body: Column(children: <Widget>[
+        // Bagian layar untuk menampilkan input dan output
         Expanded(
           child: Container(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment:
+                  MainAxisAlignment.spaceEvenly, // Memberikan jarak yang rata
               children: <Widget>[
-                SizedBox(height: 50),
+                SizedBox(height: 50), // Memberikan spasi kosong
+                // Menampilkan input pengguna
                 Container(
                   padding: EdgeInsets.all(10),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    userQuestion,
+                    formatNumber(userQuestion), // Format dengan koma
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
+                // Menampilkan jawaban
                 Container(
                   padding: EdgeInsets.all(10),
                   alignment: Alignment.centerRight,
                   child: Text(
-                    userAnswer,
+                    formatNumber(userAnswer), // Format dengan koma
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
-                SizedBox(height: 50),
+                SizedBox(height: 50), // Memberikan spasi kosong
               ],
             ),
           ),
         ),
+        // Bagian tombol kalkulator
         Expanded(
           flex: 2,
           child: Container(
             child: GridView.builder(
-              itemCount: buttons.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
+              itemCount: buttons.length, // Jumlah tombol yang ditampilkan
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4), // Grid dengan 4 kolom
               itemBuilder: (BuildContext context, int index) {
                 // Tombol Clear (C)
                 if (index == 0) {
                   return MyButton(
                     buttonTapped: () {
                       setState(() {
-                        userQuestion = ''; 
-                        userAnswer = ''; 
+                        userQuestion = ''; // Menghapus semua input
+                        userAnswer = ''; // Menghapus jawaban
                       });
                     },
                     buttonText: buttons[index],
-                    color: Colors.green,
-                    textColor: Colors.white,
+                    color: Colors.green, // Warna tombol hijau
+                    textColor: Colors.white, // Warna teks putih
                   );
-                } 
-                // Tombol Ans
-                else if (index == buttons.length - 2) {
+                } else if (index == buttons.length - 2) {
+                  // Posisi tombol "Ans"
                   return MyButton(
                     buttonTapped: () {
                       setState(() {
-                        userQuestion += userAnswer; 
+                        userQuestion =
+                            ''; // Menambahkan jawaban terakhir ke input
+                        userQuestion +=
+                            userAnswer; // Menambahkan jawaban terakhir ke input
+                        userAnswer = ''; // Menghapus jawaban
                       });
                     },
                     buttonText: buttons[index],
-                    color: Colors.blue,
-                    textColor: Colors.white,
+                    color:
+                        Colors.blue, // Warna tombol "Ans" (sesuai preferensi)
+                    textColor: Colors.white, // Warna teks putih
                   );
                 }
+
                 // Tombol Delete (DEL)
                 else if (index == 1) {
                   return MyButton(
                     buttonTapped: () {
                       setState(() {
-                        if (userQuestion.isNotEmpty) {
-                          userQuestion = userQuestion.substring(0, userQuestion.length - 1);
-                        }
+                        userQuestion = userQuestion.substring(
+                            0,
+                            userQuestion.length -
+                                1); // Menghapus karakter terakhir
+                        userAnswer = ''; // Menghapus jawaban
                       });
                     },
                     buttonText: buttons[index],
-                    color: Colors.red,
-                    textColor: Colors.white,
+                    color: Colors.red, // Warna tombol merah
+                    textColor: Colors.white, // Warna teks putih
                   );
                 }
                 // Tombol Sama Dengan (=)
@@ -119,82 +164,81 @@ class _HomePageState extends State<HomePage> {
                   return MyButton(
                     buttonTapped: () {
                       setState(() {
-                        equalPressed(); 
+                        equalPressed(); // Memanggil fungsi untuk menghitung hasil
                       });
                     },
                     buttonText: buttons[index],
-                    color: Colors.deepPurple,
-                    textColor: Colors.white,
+                    color: Colors.deepPurple, // Warna tombol ungu
+                    textColor: Colors.white, // Warna teks putih
                   );
                 }
                 // Tombol lainnya
+                // Tombol operator lainnya
                 else {
                   return MyButton(
                     buttonTapped: () {
                       setState(() {
-                        if (isOperator(buttons[index])) {
-                          userQuestion += ' ${buttons[index]} ';
-                        } else {
-                          userQuestion = _formatNumberInput(userQuestion + buttons[index]);
-                        }
+                        userQuestion += buttons[index]; // Menambahkan input ke pertanyaan
                       });
                     },
                     buttonText: buttons[index],
-                    color: isOperator(buttons[index]) ? Colors.deepPurple : Colors.white,
-                    textColor: isOperator(buttons[index]) ? Colors.white : Colors.deepPurple,
+                    color: isOperator(buttons[index])
+                        ? Colors.deepPurple
+                        : Colors.white,
+                    textColor: isOperator(buttons[index])
+                        ? Colors.white
+                        : Colors.deepPurple,
                   );
                 }
               },
             ),
           ),
         ),
-      ]), 
+      ]),
     );
   }
 
-  String _formatNumberInput(String input) {
-    String cleanInput = input.replaceAll('.', ''); // Menghapus titik dari input
-    try {
-      double number = double.parse(cleanInput); 
-      final formatter = NumberFormat('#,###', 'en_US'); 
-      return formatter.format(number);
-    } catch (e) {
-      return input; // Jika gagal, kembalikan input asli
-    }
-  }
-
+  // Mengecek apakah tombol adalah operator
   bool isOperator(String x) {
-    return ['%', '/', 'x', '-', '+', '='].contains(x);
+    if (x == '%' || x == '/' || x == 'x' || x == '-' || x == '+' || x == '=') {
+      return true;
+    }
+    return false;
   }
 
+  // Fungsi untuk menghitung hasil
   void equalPressed() {
+    // Salin input pengguna dan ganti koma dengan titik
+    String finalQuestion = userQuestion.replaceAll(',', '.');
+    finalQuestion = finalQuestion.replaceAll('x', '*'); // Ganti 'x' dengan '*'
+
     try {
-      String finalQuestion = userQuestion.replaceAll('x', '*'); 
-      finalQuestion = finalQuestion.replaceAll('.', ''); // Menghapus titik sebelum menghitung
+      Parser p = Parser(); // Parser dari math_expressions
+      Expression exp = p.parse(finalQuestion); // Parsing ekspresi
+      ContextModel cm = ContextModel(); // Membuat konteks model
+      double eval = exp.evaluate(EvaluationType.REAL, cm); // Evaluasi ekspresi
 
-      Parser p = Parser();
-      Expression exp = p.parse(finalQuestion);
-      ContextModel cm = ContextModel();
-      double eval = exp.evaluate(EvaluationType.REAL, cm);
-
-      // Format hasil akhir dengan titik sebagai pemisah ribuan
-      final formatter = NumberFormat('#,###', 'en_US');
-      userAnswer = formatter.format(eval);
+      // Format hasil dengan titik
+      userAnswer =
+          eval.toString().replaceAll('.', ','); // Ganti titik menjadi koma
     } catch (e) {
-      userAnswer = 'Error'; // Tangani kesalahan
+      userAnswer = 'Error'; // Tampilkan pesan error jika terjadi kesalahan
     }
   }
 
-  String formatNumber(String number) {
-    if (number.isEmpty) {
-      return '';
-    }
-    try {
-      String cleanedNumber = number.replaceAll('.', ''); // Hapus titik yang sudah ada
-      final formatter = NumberFormat('#,###', 'en_US');
-      return formatter.format(double.parse(cleanedNumber));
+// Fungsi untuk memformat angka dengan titik sebagai pemisah desimal
+String formatNumber(String number) {
+  if (number.isEmpty) {
+    return '';
+  }
+  try {
+      final formatter = NumberFormat('#,###.##',
+          'en_US'); // Menggunakan format dengan titik sebagai desimal
+      return formatter
+          .format(double.parse(number))
+          .replaceAll(',', '.'); // Mengganti koma dengan titik
     } catch (e) {
-      return number;
+      return number; // Jika format gagal, return string aslinya
     }
   }
 }
