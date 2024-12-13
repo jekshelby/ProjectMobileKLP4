@@ -1,6 +1,6 @@
-import 'package:calculator/button.dart'; 
-import 'package:flutter/material.dart'; 
-import 'package:math_expressions/math_expressions.dart'; 
+import 'package:calculator/button.dart';
+import 'package:flutter/material.dart';
+import 'package:math_expressions/math_expressions.dart';
 import 'package:intl/intl.dart';
 
 void main() => runApp(MyApp()); // Fungsi utama untuk menjalankan aplikasi
@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   var userQuestion = ''; // Menyimpan pertanyaan/input dari pengguna
   var userAnswer = ''; // Menyimpan jawaban dari perhitungan
   final myTextStyle = TextStyle(
-      fontSize: 30, color: Colors.deepPurple[900]); // Gaya teks default
+      fontSize: 40, color: Colors.deepPurple[900]); // Gaya teks default
 
   // Daftar tombol yang akan ditampilkan di kalkulator
   final List<String> buttons = [
@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     formatNumber(userQuestion), // Format dengan koma
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                 ),
                 // Menampilkan jawaban
@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                   alignment: Alignment.centerRight,
                   child: Text(
                     formatNumber(userAnswer), // Format dengan koma
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                 ),
                 SizedBox(height: 50), // Memberikan spasi kosong
@@ -119,9 +119,11 @@ class _HomePageState extends State<HomePage> {
                         userAnswer = ''; // Menghapus jawaban
                       });
                     },
-                    buttonText: buttons[index],
+                    buttonText:
+                        buttons[index], // Menggunakan teks dari list `buttons`
                     color: Colors.green, // Warna tombol hijau
                     textColor: Colors.white, // Warna teks putih
+                    fontSize: 30.0, // Menambahkan ukuran font
                   );
                 } else if (index == buttons.length - 2) {
                   // Posisi tombol "Ans"
@@ -139,6 +141,7 @@ class _HomePageState extends State<HomePage> {
                     color:
                         Colors.blue, // Warna tombol "Ans" (sesuai preferensi)
                     textColor: Colors.white, // Warna teks putih
+                    fontSize: 30.0, // Menambahkan ukuran font
                   );
                 }
 
@@ -157,6 +160,7 @@ class _HomePageState extends State<HomePage> {
                     buttonText: buttons[index],
                     color: Colors.red, // Warna tombol merah
                     textColor: Colors.white, // Warna teks putih
+                    fontSize: 30.0, // Menambahkan ukuran font
                   );
                 }
                 // Tombol Sama Dengan (=)
@@ -170,15 +174,16 @@ class _HomePageState extends State<HomePage> {
                     buttonText: buttons[index],
                     color: Colors.deepPurple, // Warna tombol ungu
                     textColor: Colors.white, // Warna teks putih
+                    fontSize: 40.0, // Menambahkan ukuran font
                   );
                 }
                 // Tombol lainnya
-                // Tombol operator lainnya
                 else {
                   return MyButton(
                     buttonTapped: () {
                       setState(() {
-                        userQuestion += buttons[index]; // Menambahkan input ke pertanyaan
+                        userQuestion +=
+                            buttons[index]; // Menambahkan input ke pertanyaan
                       });
                     },
                     buttonText: buttons[index],
@@ -188,6 +193,7 @@ class _HomePageState extends State<HomePage> {
                     textColor: isOperator(buttons[index])
                         ? Colors.white
                         : Colors.deepPurple,
+                    fontSize: 40.0, // Menambahkan ukuran font
                   );
                 }
               },
@@ -200,7 +206,12 @@ class _HomePageState extends State<HomePage> {
 
   // Mengecek apakah tombol adalah operator
   bool isOperator(String x) {
-    if (x == '%' || x == '/' || x == 'x' || x == '-' || x == '+' || x == '=') {
+    if (x == '%' ||
+        x == ' / ' ||
+        x == ' x ' ||
+        x == ' - ' ||
+        x == ' + ' ||
+        x == '=') {
       return true;
     }
     return false;
@@ -227,11 +238,11 @@ class _HomePageState extends State<HomePage> {
   }
 
 // Fungsi untuk memformat angka dengan titik sebagai pemisah desimal
-String formatNumber(String number) {
-  if (number.isEmpty) {
-    return '';
-  }
-  try {
+  String formatNumber(String number) {
+    if (number.isEmpty) {
+      return '';
+    }
+    try {
       final formatter = NumberFormat('#,###.##',
           'en_US'); // Menggunakan format dengan titik sebagai desimal
       return formatter
