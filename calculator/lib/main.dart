@@ -16,13 +16,15 @@ class MyApp extends StatelessWidget {
 
 class HomePage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState(); // Membuat state dari halaman
+  _HomePageState createState() =>
+      _HomePageState(); // Membuat state dari halaman
 }
 
 class _HomePageState extends State<HomePage> {
   var userQuestion = ''; // Menyimpan pertanyaan/input dari pengguna
   var userAnswer = ''; // Menyimpan jawaban dari perhitungan
-  final myTextStyle = TextStyle(fontSize: 30, color: Colors.deepPurple[900]); // Gaya teks default
+  final myTextStyle = TextStyle(
+      fontSize: 30, color: Colors.deepPurple[900]); // Gaya teks default
 
   // Daftar tombol yang akan ditampilkan di kalkulator
   final List<String> buttons = [
@@ -57,7 +59,8 @@ class _HomePageState extends State<HomePage> {
         Expanded(
           child: Container(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Memberikan jarak yang rata
+              mainAxisAlignment:
+                  MainAxisAlignment.spaceEvenly, // Memberikan jarak yang rata
               children: <Widget>[
                 SizedBox(
                   height: 50, // Memberikan spasi kosong
@@ -94,26 +97,48 @@ class _HomePageState extends State<HomePage> {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4), // Grid dengan 4 kolom
               itemBuilder: (BuildContext context, int index) {
-                // Tombol Clear (C)
-                if (index == 0) {
+                
+// Tombol Clear (C)
+if (index == 0) {
+  return MyButton(
+    buttonTapped: () {
+      setState(() {
+        userQuestion = ''; // Menghapus semua input
+        userAnswer = '';   // Menghapus jawaban
+      });
+    },
+    buttonText: buttons[index],
+    color: Colors.green, // Warna tombol hijau
+    textColor: Colors.white, // Warna teks putih
+  );
+}
+
+                
+                else if (index == buttons.length - 2) {
+                  // Posisi tombol "Ans"
                   return MyButton(
                     buttonTapped: () {
                       setState(() {
-                        userQuestion = ''; // Menghapus semua input
+                        userQuestion +=
+                            userAnswer; // Menambahkan jawaban terakhir ke input
                       });
                     },
                     buttonText: buttons[index],
-                    color: Colors.green, // Warna tombol hijau
+                    color:
+                        Colors.blue, // Warna tombol "Ans" (sesuai preferensi)
                     textColor: Colors.white, // Warna teks putih
                   );
                 }
+
                 // Tombol Delete (DEL)
                 else if (index == 1) {
                   return MyButton(
                     buttonTapped: () {
                       setState(() {
                         userQuestion = userQuestion.substring(
-                            0, userQuestion.length - 1); // Menghapus karakter terakhir
+                            0,
+                            userQuestion.length -
+                                1); // Menghapus karakter terakhir
                       });
                     },
                     buttonText: buttons[index],
@@ -139,7 +164,8 @@ class _HomePageState extends State<HomePage> {
                   return MyButton(
                     buttonTapped: () {
                       setState(() {
-                        userQuestion += buttons[index]; // Menambahkan input ke pertanyaan
+                        userQuestion +=
+                            buttons[index]; // Menambahkan input ke pertanyaan
                       });
                     },
                     buttonText: buttons[index],
@@ -170,7 +196,8 @@ class _HomePageState extends State<HomePage> {
   // Fungsi untuk menghitung hasil
   void equalPressed() {
     String finalQeustion = userQuestion; // Menyalin input pengguna
-    finalQeustion = finalQeustion.replaceAll('x', '*'); // Mengganti 'x' dengan '*'
+    finalQeustion =
+        finalQeustion.replaceAll('x', '*'); // Mengganti 'x' dengan '*'
 
     Parser p = Parser(); // Parser dari library math_expressions
     Expression exp = p.parse(finalQeustion); // Parsing ekspresi
