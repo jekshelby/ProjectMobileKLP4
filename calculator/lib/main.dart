@@ -1,6 +1,7 @@
 import 'package:calculator/button.dart'; // Import file untuk widget tombol
 import 'package:flutter/material.dart'; // Import library Flutter
 import 'package:math_expressions/math_expressions.dart'; // Import library untuk evaluasi ekspresi matematika
+import 'package:intl/intl.dart'; // Import untuk memformat angka dengan koma
 
 void main() => runApp(MyApp()); // Fungsi utama untuk menjalankan aplikasi
 
@@ -16,15 +17,13 @@ class MyApp extends StatelessWidget {
 
 class HomePage extends StatefulWidget {
   @override
-  _HomePageState createState() =>
-      _HomePageState(); // Membuat state dari halaman
+  _HomePageState createState() => _HomePageState(); // Membuat state dari halaman
 }
 
 class _HomePageState extends State<HomePage> {
   var userQuestion = ''; // Menyimpan pertanyaan/input dari pengguna
   var userAnswer = ''; // Menyimpan jawaban dari perhitungan
-  final myTextStyle = TextStyle(
-      fontSize: 30, color: Colors.deepPurple[900]); // Gaya teks default
+  final myTextStyle = TextStyle(fontSize: 30, color: Colors.deepPurple[900]); // Gaya teks default
 
   // Daftar tombol yang akan ditampilkan di kalkulator
   final List<String> buttons = [
@@ -45,7 +44,7 @@ class _HomePageState extends State<HomePage> {
     '1',
     '+',
     '0',
-    '.',
+    ',',
     'Ans',
     '=',
   ];
@@ -59,18 +58,15 @@ class _HomePageState extends State<HomePage> {
         Expanded(
           child: Container(
             child: Column(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceEvenly, // Memberikan jarak yang rata
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Memberikan jarak yang rata
               children: <Widget>[
-                SizedBox(
-                  height: 50, // Memberikan spasi kosong
-                ),
+                SizedBox(height: 50), // Memberikan spasi kosong
                 // Menampilkan input pengguna
                 Container(
                   padding: EdgeInsets.all(10),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    userQuestion,
+                    formatNumber(userQuestion), // Format dengan koma
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
@@ -79,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.all(10),
                   alignment: Alignment.centerRight,
                   child: Text(
-                    userAnswer,
+                    formatNumber(userAnswer), // Format dengan koma
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
@@ -94,10 +90,9 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             child: GridView.builder(
               itemCount: buttons.length, // Jumlah tombol yang ditampilkan
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4), // Grid dengan 4 kolom
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4), // Grid dengan 4 kolom
               itemBuilder: (BuildContext context, int index) {
-        // Tombol Clear (C)
+                // Tombol Clear (C)
                 if (index == 0) {
                   return MyButton(
                     buttonTapped: () {
@@ -115,13 +110,11 @@ class _HomePageState extends State<HomePage> {
                   return MyButton(
                     buttonTapped: () {
                       setState(() {
-                        userQuestion +=
-                            userAnswer; // Menambahkan jawaban terakhir ke input
+                        userQuestion += userAnswer; // Menambahkan jawaban terakhir ke input
                       });
                     },
                     buttonText: buttons[index],
-                    color:
-                        Colors.blue, // Warna tombol "Ans" (sesuai preferensi)
+                    color: Colors.blue, // Warna tombol "Ans" (sesuai preferensi)
                     textColor: Colors.white, // Warna teks putih
                   );
                 }
@@ -131,10 +124,7 @@ class _HomePageState extends State<HomePage> {
                   return MyButton(
                     buttonTapped: () {
                       setState(() {
-                        userQuestion = userQuestion.substring(
-                            0,
-                            userQuestion.length -
-                                1); // Menghapus karakter terakhir
+                        userQuestion = userQuestion.substring(0, userQuestion.length - 1); // Menghapus karakter terakhir
                       });
                     },
                     buttonText: buttons[index],
@@ -160,17 +150,12 @@ class _HomePageState extends State<HomePage> {
                   return MyButton(
                     buttonTapped: () {
                       setState(() {
-                        userQuestion +=
-                            buttons[index]; // Menambahkan input ke pertanyaan
+                        userQuestion += buttons[index]; // Menambahkan input ke pertanyaan
                       });
                     },
                     buttonText: buttons[index],
-                    color: isOperator(buttons[index])
-                        ? Colors.deepPurple // Warna ungu untuk operator
-                        : Colors.white, // Warna putih untuk angka
-                    textColor: isOperator(buttons[index])
-                        ? Colors.white // Warna teks putih untuk operator
-                        : Colors.deepPurple, // Warna teks ungu untuk angka
+                    color: isOperator(buttons[index]) ? Colors.deepPurple : Colors.white, // Warna tombol operator dan angka
+                    textColor: isOperator(buttons[index]) ? Colors.white : Colors.deepPurple, // Warna teks untuk operator dan angka
                   );
                 }
               },
@@ -191,15 +176,27 @@ class _HomePageState extends State<HomePage> {
 
   // Fungsi untuk menghitung hasil
   void equalPressed() {
-    String finalQeustion = userQuestion; // Menyalin input pengguna
-    finalQeustion =
-        finalQeustion.replaceAll('x', '*'); // Mengganti 'x' dengan '*'
+    String finalQuestion = userQuestion; // Menyalin input pengguna
+    finalQuestion = finalQuestion.replaceAll('x', '*'); // Mengganti 'x' dengan '*' untuk evaluasi matematika
 
     Parser p = Parser(); // Parser dari library math_expressions
-    Expression exp = p.parse(finalQeustion); // Parsing ekspresi
+    Expression exp = p.parse(finalQuestion); // Parsing ekspresi
     ContextModel cm = ContextModel(); // Membuat konteks model
     double eval = exp.evaluate(EvaluationType.REAL, cm); // Evaluasi ekspresi
 
     userAnswer = eval.toString(); // Menyimpan hasil sebagai string
   }
+
+// Fungsi untuk memformat angka dengan titik sebagai pemisah desimal
+String formatNumber(String number) {
+  if (number.isEmpty) {
+    return '';
+  }
+  try {
+    final formatter = NumberFormat('#,###.##', 'en_US'); // Menggunakan format dengan titik sebagai desimal
+    return formatter.format(double.parse(number)).replaceAll(',', '.'); // Mengganti koma dengan titik
+  } catch (e) {
+    return number; // Jika format gagal, return string aslinya
+  }
+}
 }
