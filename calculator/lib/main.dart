@@ -1,7 +1,7 @@
-import 'package:calculator/button.dart'; // Import file untuk widget tombol
-import 'package:flutter/material.dart'; // Import library Flutter
-import 'package:math_expressions/math_expressions.dart'; // Import library untuk evaluasi ekspresi matematika
-import 'package:intl/intl.dart'; // Import untuk memformat angka dengan koma
+import 'package:calculator/button.dart'; 
+import 'package:flutter/material.dart'; 
+import 'package:math_expressions/math_expressions.dart'; 
+import 'package:intl/intl.dart';
 
 void main() => runApp(MyApp()); // Fungsi utama untuk menjalankan aplikasi
 
