@@ -97,24 +97,20 @@ class _HomePageState extends State<HomePage> {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4), // Grid dengan 4 kolom
               itemBuilder: (BuildContext context, int index) {
-                
-// Tombol Clear (C)
-if (index == 0) {
-  return MyButton(
-    buttonTapped: () {
-      setState(() {
-        userQuestion = ''; // Menghapus semua input
-        userAnswer = '';   // Menghapus jawaban
-      });
-    },
-    buttonText: buttons[index],
-    color: Colors.green, // Warna tombol hijau
-    textColor: Colors.white, // Warna teks putih
-  );
-}
-
-                
-                else if (index == buttons.length - 2) {
+        // Tombol Clear (C)
+                if (index == 0) {
+                  return MyButton(
+                    buttonTapped: () {
+                      setState(() {
+                        userQuestion = ''; // Menghapus semua input
+                        userAnswer = ''; // Menghapus jawaban
+                      });
+                    },
+                    buttonText: buttons[index],
+                    color: Colors.green, // Warna tombol hijau
+                    textColor: Colors.white, // Warna teks putih
+                  );
+                } else if (index == buttons.length - 2) {
                   // Posisi tombol "Ans"
                   return MyButton(
                     buttonTapped: () {
