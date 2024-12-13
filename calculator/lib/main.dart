@@ -177,8 +177,9 @@ class _HomePageState extends State<HomePage> {
                 else {
                   return MyButton(
                     buttonTapped: () {
-                      buttonTapped(buttons[
-                          index]); // Gunakan fungsi buttonTapped untuk validasi
+                      setState(() {
+                        userQuestion += buttons[index]; // Menambahkan input ke pertanyaan
+                      });
                     },
                     buttonText: buttons[index],
                     color: isOperator(buttons[index])
@@ -226,11 +227,11 @@ class _HomePageState extends State<HomePage> {
   }
 
 // Fungsi untuk memformat angka dengan titik sebagai pemisah desimal
-  String formatNumber(String number) {
-    if (number.isEmpty) {
-      return '';
-    }
-    try {
+String formatNumber(String number) {
+  if (number.isEmpty) {
+    return '';
+  }
+  try {
       final formatter = NumberFormat('#,###.##',
           'en_US'); // Menggunakan format dengan titik sebagai desimal
       return formatter
